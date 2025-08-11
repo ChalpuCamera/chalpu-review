@@ -1,103 +1,126 @@
-import Image from "next/image";
+'use client';
+
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 
 export default function Home() {
-  return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  const router = useRouter();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+  useEffect(() => {
+    const token = localStorage.getItem('accessToken');
+    setIsLoggedIn(!!token);
+    setIsLoading(false);
+  }, []);
+
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div>로딩 중...</div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+      <div className="container mx-auto px-4 py-16">
+        <div className="max-w-4xl mx-auto text-center">
+          {/* Hero Section */}
+          <div className="mb-16">
+            <div className="text-6xl mb-6">🍽️</div>
+            <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
+              찰푸 리뷰
+            </h1>
+            <p className="text-xl md:text-2xl text-gray-600 mb-8">
+              당신의 솔직한 피드백으로 맛집을 더 맛있게 만들어주세요
+            </p>
+            <p className="text-gray-500 mb-8">
+              피드백을 작성하고 상품권 리워드를 받아보세요!
+            </p>
+          </div>
+
+          {/* Action Cards */}
+          {isLoggedIn ? (
+            <div className="grid gap-6 md:grid-cols-2 mb-12">
+              <Card className="cursor-pointer hover:shadow-lg transition-shadow" onClick={() => router.push('/profile')}>
+                <CardHeader>
+                  <CardTitle className="text-xl">마이페이지</CardTitle>
+                  <CardDescription>
+                    내 프로필과 피드백 내역을 확인하세요
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <Button className="w-full">
+                    마이페이지 보기
+                  </Button>
+                </CardContent>
+              </Card>
+
+              <Card className="cursor-pointer hover:shadow-lg transition-shadow" onClick={() => router.push('/survey')}>
+                <CardHeader>
+                  <CardTitle className="text-xl">피드백 작성</CardTitle>
+                  <CardDescription>
+                    새로운 음식에 대한 피드백을 작성해보세요
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <Button className="w-full" variant="outline">
+                    피드백 작성하기
+                  </Button>
+                </CardContent>
+              </Card>
+            </div>
+          ) : (
+            <div className="flex justify-center mb-12">
+              <Card className="cursor-pointer hover:shadow-lg transition-shadow max-w-md" onClick={() => router.push('/auth/login')}>
+                <CardHeader>
+                  <CardTitle className="text-xl text-center">시작하기</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  카카오 계정으로 간편하게 로그인하세요
+                </CardContent>
+              </Card>
+            </div>
+          )}
+
+
+          {/* Features */}
+          <div className="grid gap-6 md:grid-cols-3">
+            <div className="text-center">
+              <div className="text-4xl mb-4">📝</div>
+              <h3 className="text-lg font-semibold mb-2">간편한 피드백</h3>
+              <p className="text-gray-600 text-sm">
+                슬라이더 기반의 직관적인 인터페이스로 쉽고 빠른 피드백 작성
+              </p>
+            </div>
+            <div className="text-center">
+              <div className="text-4xl mb-4">🎁</div>
+              <h3 className="text-lg font-semibold mb-2">리워드 시스템</h3>
+              <p className="text-gray-600 text-sm">
+                피드백 작성하고 상품권으로 교환할 수 있는 포인트 적립
+              </p>
+            </div>
+            <div className="text-center">
+              <div className="text-4xl mb-4">🔒</div>
+              <h3 className="text-lg font-semibold mb-2">익명 보장</h3>
+              <p className="text-gray-600 text-sm">
+                완전 익명으로 사장님께만 전달되는 안전한 피드백
+              </p>
+            </div>
+          </div>
+
+          {/* Footer */}
+          <div className="mt-16 pt-8 border-t border-gray-200">
+            <p className="text-gray-500 text-sm">
+              © 2025 chalpu review. All rights reserved.
+            </p>
+          </div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+      </div>
     </div>
   );
 }
