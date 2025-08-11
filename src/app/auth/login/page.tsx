@@ -29,8 +29,8 @@ function LoginContent() {
     }
   }, [router, searchParams]);
 
-  const handleKakaoLogin = () => {
-    window.location.href = authApi.getKakaoLoginUrl();
+  const handleKakaoLogin = async () => {
+    await authApi.initiateKakaoLogin();
   };
 
   return (

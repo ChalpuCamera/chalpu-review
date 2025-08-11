@@ -68,6 +68,25 @@ export const rewardApi = {
 
 export const authApi = {
   getKakaoLoginUrl: () => `${api.defaults.baseURL}/api/oauth2/authorization/kakao`,
+  
+  initiateKakaoLogin: async () => {
+    try {
+      // 카카오 로그인 API 엔드포인트로 GET 요청 보내기
+      const response = await fetch(`${api.defaults.baseURL}/api/oauth2/authorization/kakao`, {
+        method: 'GET',
+        credentials: 'include', // 쿠키 포함
+      });
+      
+      if (response.redirected) {
+        // 서버에서 리다이렉트가 발생한 경우, 해당 URL로 이동
+        window.location.href = response.url;
+      }
+    } catch (error) {
+      console.error('카카오 로그인 요청 실패:', error);
+      // 에러 발생 시 기존 방식으로 fallback
+      window.location.href = `${api.defaults.baseURL}/api/oauth2/authorization/kakao`;
+    }
+  }
 };
 
 export const authMockApi = {
