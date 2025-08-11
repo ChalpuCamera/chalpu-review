@@ -76,7 +76,7 @@ export default function Home() {
             </div>
           ) : (
             <div className="flex justify-center mb-12">
-              <Card className="cursor-pointer hover:shadow-lg transition-shadow max-w-md" onClick={() => router.push('/auth/login')}>
+              <Card className="cursor-pointer hover:shadow-lg transition-shadow max-w-md" onClick={() => router.push('/api/login')}>
                 <CardHeader>
                   <CardTitle className="text-xl text-center">시작하기</CardTitle>
                 </CardHeader>

@@ -22,7 +22,7 @@ export default function RewardsPage() {
   useEffect(() => {
     const token = localStorage.getItem('accessToken');
     if (!token) {
-      router.push('/auth/login');
+      router.push('/api/login');
       return;
     }
 

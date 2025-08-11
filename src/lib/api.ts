@@ -70,20 +70,21 @@ export const authApi = {
   initiateKakaoLogin: async () => {
     console.log("로그인 시도");
     try {
-      // 카카오 로그인 API 엔드포인트로 GET 요청 보내기
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/oauth2/authorization/kakao`, {
-        method: 'GET',
-      });
-      console.log(response);
+      window.location.href = `${process.env.NEXT_PUBLIC_API_URL}/api/oauth2/authorization/kakao`;
+      // // 카카오 로그인 API 엔드포인트로 GET 요청 보내기
+      // const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/oauth2/authorization/kakao`, {
+      //   method: 'GET',
+      // });
+      // console.log(response);
       
-      if (response.redirected) {
-        // 서버에서 리다이렉트가 발생한 경우, 해당 URL로 이동
-        window.location.href = response.url;
-      }
+      // if (response.redirected) {
+      //   // 서버에서 리다이렉트가 발생한 경우, 해당 URL로 이동
+      //   window.location.href = response.url;
+      // }
     } catch (error) {
       console.error('카카오 로그인 요청 실패:', error);
       // 에러 발생 시 기존 방식으로 fallback
-      window.location.href = `${process.env.NEXT_PUBLIC_API_URL}/api/oauth2/authorization/kakao`;
+      
     }
   }
 };

@@ -16,7 +16,7 @@ export default function ProfilePage() {
   useEffect(() => {
     const token = localStorage.getItem('accessToken');
     if (!token) {
-      router.push('/auth/login');
+      router.push('/api/login');
       return;
     }
 
@@ -41,7 +41,7 @@ export default function ProfilePage() {
   const handleLogout = () => {
     localStorage.removeItem('accessToken');
     localStorage.removeItem('userId');
-    router.push('/auth/login');
+    router.push('/api/login');
   };
 
   const startSurvey = () => {

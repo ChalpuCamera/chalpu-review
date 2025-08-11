@@ -120,7 +120,7 @@ function SurveyContent() {
         }
       } else {
         // Redirect to login if not authenticated
-        router.push('/auth/login');
+        router.push('/api/login');
         return;
       }
     } catch {

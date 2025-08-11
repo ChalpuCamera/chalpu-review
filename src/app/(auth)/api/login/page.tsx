@@ -1,33 +1,22 @@
 'use client';
 
-import { useEffect, Suspense } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { authApi } from '@/lib/api';
 
-function LoginContent() {
+export default function LoginPage() {
   const router = useRouter();
-  const searchParams = useSearchParams();
 
   useEffect(() => {
     // Check if user is already logged in
     const token = localStorage.getItem('accessToken');
     if (token) {
-      router.push('/profile');
+      router.push('/');
       return;
     }
-
-    // Handle OAuth callback
-    const accessToken = searchParams.get('accessToken');
-    const userId = searchParams.get('userId');
-
-    if (accessToken && userId) {
-      localStorage.setItem('accessToken', accessToken);
-      localStorage.setItem('userId', userId);
-      router.push('/profile');
-    }
-  }, [router, searchParams]);
+  }, [router]);
 
   const handleKakaoLogin = async () => {
     await authApi.initiateKakaoLogin();
@@ -55,13 +44,5 @@ function LoginContent() {
         </CardContent>
       </Card>
     </div>
-  );
-}
-
-export default function LoginPage() {
-  return (
-    <Suspense fallback={<div className="min-h-screen flex items-center justify-center">로딩 중...</div>}>
-      <LoginContent />
-    </Suspense>
   );
 }
