@@ -8,7 +8,7 @@ import type {
 } from '@/types';
 
 const api = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL || 'https://review.chalpu.com',
+  baseURL: process.env.NEXT_PUBLIC_API_URL,
   timeout: 10000,
 });
 
@@ -67,15 +67,14 @@ export const rewardApi = {
 };
 
 export const authApi = {
-  getKakaoLoginUrl: () => `${api.defaults.baseURL}/api/oauth2/authorization/kakao`,
-  
   initiateKakaoLogin: async () => {
+    console.log("로그인 시도");
     try {
       // 카카오 로그인 API 엔드포인트로 GET 요청 보내기
-      const response = await fetch(`${api.defaults.baseURL}/api/oauth2/authorization/kakao`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/oauth2/authorization/kakao`, {
         method: 'GET',
-        credentials: 'include', // 쿠키 포함
       });
+      console.log(response);
       
       if (response.redirected) {
         // 서버에서 리다이렉트가 발생한 경우, 해당 URL로 이동
@@ -84,7 +83,7 @@ export const authApi = {
     } catch (error) {
       console.error('카카오 로그인 요청 실패:', error);
       // 에러 발생 시 기존 방식으로 fallback
-      window.location.href = `${api.defaults.baseURL}/api/oauth2/authorization/kakao`;
+      window.location.href = `${process.env.NEXT_PUBLIC_API_URL}/api/oauth2/authorization/kakao`;
     }
   }
 };
