@@ -4,12 +4,12 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { rewardApi, feedbackApi } from '@/lib/api';
+import { feedbackApi } from '@/lib/api';
 import { User as UserIcon, Settings, Gift, FileText, LogOut, PenTool } from 'lucide-react';
 
 export default function ProfilePage() {
   const router = useRouter();
-  const [feedbacks, setFeedbacks] = useState<any[]>([]);
+  const [feedbacks, setFeedbacks] = useState<Record<string, unknown>[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [feedbackCount, setFeedbackCount] = useState(0);
 
@@ -23,9 +23,10 @@ export default function ProfilePage() {
     const loadData = async () => {
       try {
         const feedbackResponse = await feedbackApi.getMyFeedback();
-        if (feedbackResponse.data.result) {
-          setFeedbacks(feedbackResponse.data.result);
-          setFeedbackCount(feedbackResponse.data.result.length);
+        if (feedbackResponse.data.result && Array.isArray(feedbackResponse.data.result)) {
+          const feedbackResults = feedbackResponse.data.result as Record<string, unknown>[];
+          setFeedbacks(feedbackResults);
+          setFeedbackCount(feedbackResults.length);
         }
       } catch (err) {
         console.error('Failed to load data:', err);
@@ -159,20 +160,20 @@ export default function ProfilePage() {
                   .slice(0, 10)
                   .map((feedback) => (
                     <div
-                      key={feedback.id}
+                      key={(feedback.id as string | number) || Math.random()}
                       className="p-4 bg-gray-50 rounded-lg border hover:bg-gray-100 transition-colors"
                     >
                       <div className="flex justify-between items-start">
                         <div className="flex-1">
                           <div className="flex items-center space-x-2 mb-2">
-                            <h4 className="font-semibold">{feedback.storeName}</h4>
+                            <h4 className="font-semibold">{String(feedback.storeName || 'Unknown')}</h4>
                             <span className="text-gray-400">•</span>
-                            <span className="text-gray-600">{feedback.foodName}</span>
+                            <span className="text-gray-600">{String(feedback.foodName || 'Unknown')}</span>
                           </div>
                           
                           <div className="text-sm mb-2">
                             <span className="text-gray-500">작성일:</span>
-                            <span className="ml-2">{new Date(feedback.createdAt).toLocaleDateString()}</span>
+                            <span className="ml-2">{new Date(String(feedback.createdAt || Date.now())).toLocaleDateString()}</span>
                           </div>
                         </div>
                       </div>

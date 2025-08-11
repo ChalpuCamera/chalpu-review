@@ -88,7 +88,7 @@ export default function TasteProfilePage() {
         setIsLoading(false);
         router.push('/profile');
       }, 1000);
-    } catch (err) {
+    } catch {
       setError('프로필 저장 중 오류가 발생했습니다.');
       setIsLoading(false);
     }

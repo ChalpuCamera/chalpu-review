@@ -43,7 +43,7 @@ export default function RewardsPage() {
         // Mock feedback count for demo
         const mockCount = localStorage.getItem('mockFeedbackCount');
         setFeedbackCount(mockCount ? parseInt(mockCount) : 7);
-      } catch (err) {
+      } catch {
         setError('리워드 정보를 불러오는데 실패했습니다.');
       } finally {
         setIsLoading(false);
@@ -71,7 +71,7 @@ export default function RewardsPage() {
       } else {
         setError('교환에 실패했습니다.');
       }
-    } catch (err) {
+    } catch {
       setError('교환 중 오류가 발생했습니다.');
     } finally {
       setExchangeLoading(null);

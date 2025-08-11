@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { api, storage } from '@/lib/api';
+import { authMockApi, storage } from '@/lib/api';
 
 export default function SignUpPage() {
   const router = useRouter();
@@ -24,7 +24,7 @@ export default function SignUpPage() {
     setError('');
 
     try {
-      const response = await api.register(formData);
+      const response = await authMockApi.register(formData);
       
       if (response.success && response.data) {
         storage.setCurrentUser(response.data.user);
@@ -32,7 +32,7 @@ export default function SignUpPage() {
       } else {
         setError(response.error || '회원가입에 실패했습니다.');
       }
-    } catch (err) {
+    } catch {
       setError('회원가입 중 오류가 발생했습니다.');
     } finally {
       setIsLoading(false);

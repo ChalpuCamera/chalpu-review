@@ -22,7 +22,7 @@ api.interceptors.request.use((config) => {
 
 export const feedbackApi = {
   create: (data: FeedbackSubmission) => 
-    api.post<ApiResponse<any>>('/api/customer-feedback', data),
+    api.post<ApiResponse<Record<string, unknown>>>('/api/customer-feedback', data),
 
   getPresignedUrls: (fileNames: string[]) =>
     api.post<ApiResponse<{ photoUrls: PhotoUpload[] }>>(
@@ -31,13 +31,13 @@ export const feedbackApi = {
     ),
 
   getById: (feedbackId: number) =>
-    api.get<ApiResponse<any>>(`/api/customer-feedback/${feedbackId}`),
+    api.get<ApiResponse<Record<string, unknown>>>(`/api/customer-feedback/${feedbackId}`),
 
   getMyFeedback: () =>
-    api.get<ApiResponse<any>>('/api/customer-feedback/me'),
+    api.get<ApiResponse<Record<string, unknown>>>('/api/customer-feedback/me'),
 
   getMyFeedbackPaged: (page: number = 0, size: number = 10) =>
-    api.get<ApiResponse<any>>(`/api/customer-feedback/me/page?page=${page}&size=${size}`),
+    api.get<ApiResponse<Record<string, unknown>>>(`/api/customer-feedback/me/page?page=${page}&size=${size}`),
 };
 
 export const rewardApi = {
@@ -60,14 +60,37 @@ export const rewardApi = {
     api.post<ApiResponse<RedemptionItem>>('/api/rewards/redeem', { rewardId }),
 
   use: (redemptionId: number) =>
-    api.put<ApiResponse<{}>>(`/api/rewards/redemptions/${redemptionId}/use`),
+    api.put<ApiResponse<Record<string, unknown>>>(`/api/rewards/redemptions/${redemptionId}/use`),
 
   cancel: (redemptionId: number) =>
-    api.put<ApiResponse<{}>>(`/api/rewards/redemptions/${redemptionId}/cancel`),
+    api.put<ApiResponse<Record<string, unknown>>>(`/api/rewards/redemptions/${redemptionId}/cancel`),
 };
 
 export const authApi = {
   getKakaoLoginUrl: () => `${api.defaults.baseURL}/api/oauth2/authorization/kakao`,
+};
+
+export const authMockApi = {
+  register: async (data: { name: string; email: string; password: string }) => {
+    // Mock API for demo
+    return {
+      success: true,
+      data: {
+        user: { id: 1, name: data.name, email: data.email }
+      },
+      error: null as string | null
+    };
+  }
+};
+
+export const storage = {
+  getCurrentUser: () => {
+    const userData = localStorage.getItem('currentUser');
+    return userData ? JSON.parse(userData) : null;
+  },
+  setCurrentUser: (user: unknown) => {
+    localStorage.setItem('currentUser', JSON.stringify(user));
+  }
 };
 
 export default api;

@@ -123,82 +123,13 @@ function SurveyContent() {
         router.push('/auth/login');
         return;
       }
-    } catch (err) {
+    } catch {
       setError('피드백 제출 중 오류가 발생했습니다.');
     } finally {
       setIsLoading(false);
     }
   };
 
-  const SliderQuestion = ({ 
-    title, 
-    leftLabel, 
-    rightLabel, 
-    value, 
-    onChange,
-    onSkip,
-    skipFlag,
-    showSkip = false 
-  }: {
-    title: string;
-    leftLabel: string;
-    rightLabel: string;
-    value: number | null;
-    onChange: (val: number) => void;
-    onSkip?: () => void;
-    skipFlag?: boolean;
-    showSkip?: boolean;
-  }) => (
-    <div className="space-y-6">
-      <div className="text-center">
-        <h2 className="text-xl font-semibold mb-2">{title}</h2>
-        <div className="text-sm text-gray-500">
-          진행률 바: {Math.round(progress)}% 진행
-        </div>
-      </div>
-      
-      {showSkip && (
-        <Label className="flex items-center space-x-2 cursor-pointer">
-          <input
-            type="checkbox"
-            checked={skipFlag}
-            onChange={onSkip}
-            className="w-4 h-4"
-          />
-          <span>판단이 불가한 음식은 체크 안해도 됩니다</span>
-        </Label>
-      )}
-      
-      {!skipFlag && (
-        <div className="space-y-4">
-          <div className="px-4">
-            <Slider
-              value={value !== null ? [value] : [0]}
-              onValueChange={(val) => onChange(val[0])}
-              min={-2}
-              max={2}
-              step={0.1}
-              className="w-full"
-            />
-          </div>
-          <div className="flex justify-between text-sm text-gray-600 px-4">
-            <span>{leftLabel}</span>
-            <span>{rightLabel}</span>
-          </div>
-          <div className="text-center">
-            <span className="text-lg font-semibold">
-              {value !== null ? value.toFixed(1) : '0.0'}
-            </span>
-          </div>
-          <div className="text-center">
-            <Button variant="outline" onClick={() => onChange(0)}>
-              리셋
-            </Button>
-          </div>
-        </div>
-      )}
-    </div>
-  );
 
   const renderStep = () => {
     switch (currentStep) {
