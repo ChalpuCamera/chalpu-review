@@ -1,28 +1,34 @@
-'use client';
+"use client";
 
-import { useEffect, Suspense } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useEffect, Suspense } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import Cookie from "./cookie";
 
 function OAuth2SuccessContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
   useEffect(() => {
-    // OAuth2 성공 콜백 처리
-    const accessToken = searchParams.get('accessToken');
-    const userId = searchParams.get('userId');
+    const handleOAuthSuccess = async () => {
+      // OAuth2 성공 콜백 처리
+      const accessToken = searchParams.get("accessToken");
+      const userId = searchParams.get("userId");
 
-    if (accessToken && userId) {
-      // localStorage에 토큰과 사용자 ID 저장
-      localStorage.setItem('accessToken', accessToken);
-      localStorage.setItem('userId', userId);
-      
-      // 홈페이지로 리다이렉트
-      router.push('/');
-    } else {
-      // 토큰이나 userId가 없으면 로그인 페이지로
-      router.push('/api/login');
-    }
+      // 쿠키에서 refreshToken 가져오기
+      const { refreshToken } = await Cookie();
+
+      if (accessToken && userId && refreshToken) {
+        // localStorage에 토큰과 사용자 ID 저장
+        localStorage.setItem("accessToken", accessToken);
+        localStorage.setItem("userId", userId);
+        localStorage.setItem("refreshToken", refreshToken);
+        router.push("/");
+      } else {
+        router.push("/api/login");
+      }
+    };
+
+    handleOAuthSuccess();
   }, [router, searchParams]);
 
   return (
@@ -37,7 +43,13 @@ function OAuth2SuccessContent() {
 
 export default function OAuth2SuccessPage() {
   return (
-    <Suspense fallback={<div className="min-h-screen flex items-center justify-center">로딩 중...</div>}>
+    <Suspense
+      fallback={
+        <div className="min-h-screen flex items-center justify-center">
+          로딩 중...
+        </div>
+      }
+    >
       <OAuth2SuccessContent />
     </Suspense>
   );
