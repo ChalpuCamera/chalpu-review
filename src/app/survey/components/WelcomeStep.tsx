@@ -23,9 +23,9 @@ export function WelcomeStep({ restaurantName, menuName, userProfile }: WelcomeSt
         <div className="bg-green-50 p-4 rounded-lg text-sm border-l-4 border-green-400">
           <p className="font-medium text-green-800 mb-2">📊 당신의 입맛 프로필</p>
           <div className="space-y-1 text-green-700">
-            <p>• 매운맛 선호도: {spicinessLabels[userProfile.spiceLevel]}</p>
-            <p>• 평소 식사량: {portionLabels[userProfile.portionSize]}</p>
-            <p>• 점심 예산대: {priceLabels[userProfile.priceRange]}</p>
+            <p>• 매운맛 선호도: {spicinessLabels[userProfile.spicyLevel - 1]}</p>
+            <p>• 평소 식사량: {portionLabels[userProfile.mealAmount - 1]}</p>
+            <p>• 점심 예산대: {priceLabels[userProfile.mealSpending - 1]}</p>
           </div>
           <p className="text-xs text-green-600 mt-2">위 정보를 바탕으로 개인화된 질문을 드릴게요!</p>
         </div>

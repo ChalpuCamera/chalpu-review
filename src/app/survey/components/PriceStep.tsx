@@ -26,7 +26,7 @@ export function PriceStep({
 
   const priceRanges = ['8,000원 미만', '8,000원 ~ 12,000원', '12,000원 ~ 15,000원', '15,000원 이상'];
   const title = userProfile
-    ? `평소 점심 예산(${priceRanges[userProfile.priceRange]})을 고려했을 때, 오늘 음식의 가격은 어떻게 느끼셨나요?`
+    ? `평소 점심 예산(${priceRanges[userProfile.mealSpending - 1]})을 고려했을 때, 오늘 음식의 가격은 어떻게 느끼셨나요?`
     : '비슷한 종류의 다른 음식과 비교했을 때, 가격은 어떻게 느끼셨나요?';
 
   return (

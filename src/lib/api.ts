@@ -4,7 +4,8 @@ import type {
   FeedbackSubmission, 
   RewardItem, 
   RedemptionItem, 
-  PhotoUpload 
+  PhotoUpload,
+  TasteProfileResponse
 } from '@/types';
 
 const api = axios.create({
@@ -64,6 +65,16 @@ export const rewardApi = {
 
   cancel: (redemptionId: number) =>
     api.put<ApiResponse<Record<string, unknown>>>(`/api/rewards/redemptions/${redemptionId}/cancel`),
+};
+
+export const tasteProfileApi = {
+  // 내 취향 정보 조회
+  getTasteProfile: () =>
+    api.get<ApiResponse<TasteProfileResponse>>('/api/customers/me/taste'),
+    
+  // 내 취향 정보 생성/수정
+  createOrUpdateTasteProfile: (data: TasteProfileResponse) =>
+    api.post<ApiResponse<Record<string, unknown>>>('/api/customers/me/taste', data),
 };
 
 export const authApi = {

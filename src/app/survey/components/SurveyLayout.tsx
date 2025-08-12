@@ -1,6 +1,7 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
 import { Button } from '@/components/ui/button';
+import { useRouter } from 'next/navigation';
 
 interface SurveyLayoutProps {
   currentStep: number;
@@ -31,9 +32,22 @@ export function SurveyLayout({
   isLoading,
   bgColor = "bg-gray-50"
 }: SurveyLayoutProps) {
+  const router = useRouter();
+
   return (
     <div className={`min-h-screen ${bgColor} py-8`}>
       <div className="max-w-2xl mx-auto px-4">
+        {/* 홈 버튼 */}
+        <div className="mb-4 flex justify-between items-center">
+          <Button 
+            variant="outline" 
+            onClick={() => router.push('/')}
+            className="flex items-center gap-2"
+          >
+            🏠 홈으로
+          </Button>
+        </div>
+
         <Card>
           <CardHeader className="text-center">
             <CardTitle>피드백 설문</CardTitle>

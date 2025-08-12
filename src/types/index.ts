@@ -1,7 +1,14 @@
 export interface UserProfile {
-  spiceLevel: number; // 0-4 (매운맛 수준)
-  portionSize: number; // 0-3 (식사량)
-  priceRange: number; // 0-3 (가격대)
+  spicyLevel: number; // 매운맛 수준 (백엔드 API 필드명)
+  mealAmount: number; // 식사량 (백엔드 API 필드명)
+  mealSpending: number; // 가격대 (백엔드 API 필드명)
+}
+
+// 백엔드 API 응답 타입
+export interface TasteProfileResponse {
+  spicyLevel: number;
+  mealAmount: number;
+  mealSpending: number;
 }
 
 export interface SurveyAnswer {

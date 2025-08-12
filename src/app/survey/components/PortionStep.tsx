@@ -9,7 +9,7 @@ interface PortionStepProps {
 
 export function PortionStep({ userProfile, value, onChange }: PortionStepProps) {
   const title = userProfile ? 
-    `평소 드시는 양(${['0.7인분', '1인분', '1.5인분', '2인분 이상'][userProfile.portionSize]})을 기준으로, 오늘 음식의 양은 어떠셨나요?` :
+    `평소 드시는 양(${['0.7인분', '1인분', '1.5인분', '2인분 이상'][userProfile.mealAmount - 1]})을 기준으로, 오늘 음식의 양은 어떠셨나요?` :
     '오늘 음식의 양은 어떠셨나요?';
 
   return (

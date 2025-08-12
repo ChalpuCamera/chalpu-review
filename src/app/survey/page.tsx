@@ -60,7 +60,7 @@ function SurveyContent() {
       if (savedProfile) {
         const profile = JSON.parse(savedProfile);
         // 프로필이 완전히 설정되어 있는지 확인
-        if (profile.spiceLevel >= 0 && profile.portionSize >= 0 && profile.priceRange >= 0) {
+        if (profile.spicyLevel >= 0 && profile.mealAmount >= 0 && profile.mealSpending >= 0) {
           setUserProfile(profile);
         } else {
           // 프로필이 완전하지 않으면 프로필 설정 페이지로 리다이렉트
@@ -194,7 +194,7 @@ function SurveyContent() {
     const spiceTitle = userProfile
       ? `평소 드시는 맵기(${
           ["안 매움", "1단계", "2단계", "3단계", "4단계"][
-            userProfile.spiceLevel
+            userProfile.spicyLevel - 1
           ]
         })를 기준으로, 오늘 드신 음식의 맵기는 어떠셨나요?`
       : "오늘 드신 음식의 맵기는 어떠셨나요?";
