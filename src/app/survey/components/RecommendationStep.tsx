@@ -18,9 +18,6 @@ export function RecommendationStep({
     <div className="space-y-6">
       <div className="text-center">
         <h2 className="text-xl font-semibold mb-2">거의 다 왔어요! 마지막 의견을 들려주세요.</h2>
-        <div className="text-sm text-gray-500">
-          진행률 바: 90% 진행
-        </div>
       </div>
       
       <div className="p-4 rounded-lg bg-gray-50 border-l-4 border-gray-400">

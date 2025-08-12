@@ -86,7 +86,14 @@ export default function TasteProfilePage() {
       
       setTimeout(() => {
         setIsLoading(false);
-        router.push('/profile');
+        // 설문에서 온 경우 설문으로 돌아가기
+        const returnUrl = sessionStorage.getItem('returnUrl');
+        if (returnUrl) {
+          sessionStorage.removeItem('returnUrl');
+          router.push(returnUrl);
+        } else {
+          router.push('/profile');
+        }
       }, 1000);
     } catch {
       setError('프로필 저장 중 오류가 발생했습니다.');
