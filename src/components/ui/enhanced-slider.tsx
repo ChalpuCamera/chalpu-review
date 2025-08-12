@@ -24,7 +24,7 @@ const EnhancedSlider = React.forwardRef<
   >
     <SliderPrimitive.Track
       className={cn(
-        "relative h-3 w-full grow overflow-hidden rounded-full",
+        "relative h-6 w-full grow overflow-hidden rounded-full",
         trackColor
       )}
     >
@@ -37,7 +37,7 @@ const EnhancedSlider = React.forwardRef<
     </SliderPrimitive.Track>
     <SliderPrimitive.Thumb
       className={cn(
-        "block h-6 w-6 rounded-full border-2 border-white shadow-lg ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
+        "block h-10 w-10 rounded-full border-4 border-white shadow-xl ring-offset-background transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 cursor-pointer hover:scale-110 active:scale-95",
         thumbColor
       )}
     />

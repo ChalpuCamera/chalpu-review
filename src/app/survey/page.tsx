@@ -217,6 +217,8 @@ function SurveyContent() {
             onSkip={() =>
               setSkipFlags({ ...skipFlags, spice: !skipFlags.spice })
             }
+            userProfile={userProfile}
+            profileType="spicy"
           />
         );
 
@@ -232,6 +234,8 @@ function SurveyContent() {
             onSkip={() =>
               setSkipFlags({ ...skipFlags, sweet: !skipFlags.sweet })
             }
+            userProfile={userProfile}
+            profileType="sweet"
           />
         );
 
@@ -245,6 +249,8 @@ function SurveyContent() {
             skipFlag={skipFlags.salt}
             onChange={(val) => setSliderValues({ ...sliderValues, salt: val })}
             onSkip={() => setSkipFlags({ ...skipFlags, salt: !skipFlags.salt })}
+            userProfile={userProfile}
+            profileType="salt"
           />
         );
 
@@ -258,6 +264,8 @@ function SurveyContent() {
             skipFlag={skipFlags.sour}
             onChange={(val) => setSliderValues({ ...sliderValues, sour: val })}
             onSkip={() => setSkipFlags({ ...skipFlags, sour: !skipFlags.sour })}
+            userProfile={userProfile}
+            profileType="sour"
           />
         );
 
@@ -327,15 +335,15 @@ function SurveyContent() {
       case 0:
         return true;
       case 1:
-        return skipFlags.spice || sliderValues.spice !== 0;
+        return true; // 항상 활성화
       case 2:
-        return skipFlags.sweet || sliderValues.sweet !== 0;
+        return true; // 항상 활성화
       case 3:
-        return skipFlags.salt || sliderValues.salt !== 0;
+        return true; // 항상 활성화
       case 4:
-        return skipFlags.sour || sliderValues.sour !== 0;
+        return true; // 항상 활성화
       case 5:
-        return sliderValues.portion !== 0;
+        return true; // 항상 활성화
       case 6:
         // 가격이 0이 아니고 이유를 선택하지 않았으면 비활성화
         if (sliderValues.price !== 0 && !surveyData.priceReasonCategory) {

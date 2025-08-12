@@ -37,6 +37,15 @@ export function PriceStep({
         </h2>
       </div>
 
+      {/* 입맛 프로필 표시 */}
+      {userProfile && (
+        <div className="p-3 rounded-lg bg-blue-50 border-l-4 border-blue-400">
+          <p className="text-blue-800 text-sm font-medium">
+            📊 당신의 평소 점심 예산: {priceRanges[userProfile.mealSpending - 1]}
+          </p>
+        </div>
+      )}
+
       <div className="p-4 rounded-lg bg-gray-50 border-l-4 border-gray-400">
         <p className="text-gray-800 font-medium">💰 가격 대비 만족도</p>
         <p className="text-gray-700 text-sm">

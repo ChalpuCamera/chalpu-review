@@ -57,12 +57,15 @@ export function FeedbackSlider({
       </div>
       
       <div className="space-y-4">
-        <div className="flex justify-between text-sm font-medium text-gray-700">
+        <div className="flex justify-between items-center text-sm font-medium text-gray-700 relative">
           <span className="px-2 py-1 bg-gray-100 rounded">{leftLabel}</span>
+          {value === 0 && (
+            <span className="absolute left-1/2 transform -translate-x-1/2 px-2 py-1 bg-blue-50 text-blue-700 rounded border border-blue-200">적당함</span>
+          )}
           <span className="px-2 py-1 bg-gray-100 rounded">{rightLabel}</span>
         </div>
         
-        <div className="px-4 py-2">
+        <div className="px-6 py-4">
           <EnhancedSlider
             value={[displayValue]}
             onValueChange={handleSliderChange}

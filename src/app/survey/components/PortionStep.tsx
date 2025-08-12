@@ -17,6 +17,15 @@ export function PortionStep({ userProfile, value, onChange }: PortionStepProps) 
       <div className="text-center">
         <h2 className="text-xl font-semibold mb-2">{title}</h2>
       </div>
+
+      {/* 입맛 프로필 표시 */}
+      {userProfile && (
+        <div className="p-3 rounded-lg bg-blue-50 border-l-4 border-blue-400">
+          <p className="text-blue-800 text-sm font-medium">
+            📊 당신의 평소 식사량: {['0.7인분', '1인분', '1.5인분', '2인분 이상'][userProfile.mealAmount - 1]}
+          </p>
+        </div>
+      )}
       
       <div className="p-4 rounded-lg bg-gray-50 border-l-4 border-gray-400">
         <p className="text-gray-800 font-medium">🍽️ 양에 대한 평가</p>
