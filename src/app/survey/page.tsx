@@ -2,7 +2,7 @@
 
 import { useState, useEffect, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { feedbackApi } from "@/lib/api";
+import { feedbackApi, tasteProfileApi } from "@/lib/api";
 import type { UserProfile, SliderValue, SurveyAnswer } from "@/types";
 import { SurveyLayout } from "./components/SurveyLayout";
 import { WelcomeStep } from "./components/WelcomeStep";
@@ -56,24 +56,41 @@ function SurveyContent() {
     const token = localStorage.getItem("accessToken");
 
     if (token) {
-      const savedProfile = localStorage.getItem("userProfile");
-      if (savedProfile) {
-        const profile = JSON.parse(savedProfile);
-        // 프로필이 완전히 설정되어 있는지 확인
-        if (profile.spicyLevel >= 0 && profile.mealAmount >= 0 && profile.mealSpending >= 0) {
-          setUserProfile(profile);
-        } else {
-          // 프로필이 완전하지 않으면 프로필 설정 페이지로 리다이렉트
-          sessionStorage.setItem('returnUrl', window.location.href);
+      // 백엔드에서 프로필 로드
+      const loadProfile = async () => {
+        try {
+          const response = await tasteProfileApi.getTasteProfile();
+          if (response.data.code === 200 && response.data.result) {
+            const profile = response.data.result;
+            // 프로필이 완전히 설정되어 있는지 확인
+            if (
+              profile.spicyLevel >= 0 &&
+              profile.mealAmount >= 0 &&
+              profile.mealSpending >= 0
+            ) {
+              setUserProfile(profile);
+            } else {
+              // 프로필이 완전하지 않으면 프로필 설정 페이지로 리다이렉트
+              sessionStorage.setItem("returnUrl", window.location.href);
+              router.push("/profile/taste");
+              return;
+            }
+          } else {
+            // 프로필이 없으면 프로필 설정 페이지로 리다이렉트
+            sessionStorage.setItem("returnUrl", window.location.href);
+            router.push("/profile/taste");
+            return;
+          }
+        } catch (error) {
+          console.log("프로필 로드 실패:", error);
+          // 프로필 로드에 실패하면 프로필 설정 페이지로 리다이렉트
+          sessionStorage.setItem("returnUrl", window.location.href);
           router.push("/profile/taste");
           return;
         }
-      } else {
-        // 프로필이 없으면 프로필 설정 페이지로 리다이렉트
-        sessionStorage.setItem('returnUrl', window.location.href);
-        router.push("/profile/taste");
-        return;
-      }
+      };
+
+      loadProfile();
     }
   }, [router]);
 
@@ -202,7 +219,11 @@ function SurveyContent() {
     switch (currentStep) {
       case 0:
         return (
-          <WelcomeStep restaurantName={restaurantName} menuName={menuName} userProfile={userProfile} />
+          <WelcomeStep
+            restaurantName={restaurantName}
+            menuName={menuName}
+            userProfile={userProfile}
+          />
         );
 
       case 1:
