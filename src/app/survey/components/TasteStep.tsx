@@ -35,7 +35,7 @@ export function TasteStep({
     }
     
     // 다른 맛은 일반적인 메시지
-    return '당신의 입맛 프로필을 기준으로 평가해주세요';
+    return '오늘 드신 음식의 맛을 기준으로 평가해주세요';
   };
 
   return (

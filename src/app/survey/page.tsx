@@ -290,7 +290,7 @@ function SurveyContent() {
           <TasteStep
             title="오늘 드신 음식의 신맛은 어떠셨나요?"
             leftLabel="신맛 거의 없음"
-            rightLabel="많이 신"
+            rightLabel="많이 심"
             value={sliderValues.sour}
             skipFlag={skipFlags.sour}
             onChange={(val) => setSliderValues({ ...sliderValues, sour: val })}
