@@ -14,7 +14,7 @@ export interface TasteProfileResponse {
 export interface SurveyAnswer {
   questionId: number;
   answerText?: string;
-  numericValue?: number;
+  numericValue?: number | null;
 }
 
 export interface FeedbackSubmission {

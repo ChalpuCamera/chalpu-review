@@ -120,30 +120,22 @@ function SurveyContent() {
         // Build survey answers
         const surveyAnswers: SurveyAnswer[] = [];
 
-        if (!skipFlags.spice) {
-          surveyAnswers.push({
-            questionId: 1,
-            numericValue: sliderValues.spice,
-          });
-        }
-        if (!skipFlags.sweet) {
-          surveyAnswers.push({
-            questionId: 2,
-            numericValue: sliderValues.sweet,
-          });
-        }
-        if (!skipFlags.salt) {
-          surveyAnswers.push({
-            questionId: 3,
-            numericValue: sliderValues.salt,
-          });
-        }
-        if (!skipFlags.sour) {
-          surveyAnswers.push({
-            questionId: 4,
-            numericValue: sliderValues.sour,
-          });
-        }
+        surveyAnswers.push({
+          questionId: 1,
+          numericValue: skipFlags.spice ? null : sliderValues.spice,
+        });
+        surveyAnswers.push({
+          questionId: 2,
+          numericValue: skipFlags.sweet ? null : sliderValues.sweet,
+        });
+        surveyAnswers.push({
+          questionId: 3,
+          numericValue: skipFlags.salt ? null : sliderValues.salt,
+        });
+        surveyAnswers.push({
+          questionId: 4,
+          numericValue: skipFlags.sour ? null : sliderValues.sour,
+        });
         surveyAnswers.push({
           questionId: 5,
           numericValue: sliderValues.portion,
