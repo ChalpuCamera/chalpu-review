@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { toast } from '@/components/ui/toast';
 
 export default function Home() {
   const router = useRouter();
@@ -46,7 +47,10 @@ export default function Home() {
           {/* Action Cards */}
           {isLoggedIn ? (
             <div className="grid gap-6 md:grid-cols-2 mb-12">
-              <Card className="cursor-pointer hover:shadow-lg transition-shadow" onClick={() => router.push('/profile')}>
+              <Card className="cursor-pointer hover:shadow-lg transition-shadow" onClick={() => {
+                toast.info("마이페이지로 이동합니다");
+                router.push('/profile');
+              }}>
                 <CardHeader>
                   <CardTitle className="text-xl">마이페이지</CardTitle>
                   <CardDescription>
@@ -54,13 +58,18 @@ export default function Home() {
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <Button className="w-full">
+                  <Button className="w-full" variant="outline">
                     마이페이지 보기
                   </Button>
                 </CardContent>
               </Card>
 
-              <Card className="cursor-pointer hover:shadow-lg transition-shadow" onClick={() => router.push('/survey')}>
+              <Card className="cursor-pointer hover:shadow-lg transition-shadow" onClick={() => {
+                toast.success("피드백 작성 페이지로 이동합니다!", {
+                  description: "소중한 의견을 들려주세요"
+                });
+                router.push('/survey');
+              }}>
                 <CardHeader>
                   <CardTitle className="text-xl">피드백 작성</CardTitle>
                   <CardDescription>
@@ -76,7 +85,10 @@ export default function Home() {
             </div>
           ) : (
             <div className="flex justify-center mb-12">
-              <Card className="cursor-pointer hover:shadow-lg transition-shadow max-w-md" onClick={() => router.push('/api/login')}>
+              <Card className="cursor-pointer hover:shadow-lg transition-shadow max-w-md" onClick={() => {
+                toast.info("로그인 페이지로 이동합니다");
+                router.push('/api/login');
+              }}>
                 <CardHeader>
                   <CardTitle className="text-xl text-center">시작하기</CardTitle>
                 </CardHeader>

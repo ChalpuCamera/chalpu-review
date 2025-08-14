@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import { toast } from "@/components/ui/toast";
 
 interface OAuth2SuccessClientProps {
   refreshToken?: string;
@@ -42,13 +43,22 @@ export default function OAuth2SuccessClient({ refreshToken }: OAuth2SuccessClien
             refreshToken: localStorage.getItem("refreshToken") ? "saved" : "not set"
           });
           
+          toast.success("로그인에 성공했습니다!", {
+            description: "메인 페이지로 이동합니다"
+          });
           router.push("/");
         } catch (error) {
           console.error("Error saving to localStorage:", error);
+          toast.error("로그인 처리 중 오류가 발생했습니다", {
+            description: "다시 시도해 주세요"
+          });
           router.push("/api/login");
         }
       } else {
         console.log("OAuth failed - missing required parameters");
+        toast.error("로그인에 실패했습니다", {
+          description: "다시 시도해 주세요"
+        });
         router.push("/api/login");
       }
     };

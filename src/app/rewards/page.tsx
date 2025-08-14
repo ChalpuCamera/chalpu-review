@@ -9,6 +9,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import { rewardApi } from '@/lib/api';
 import type { RewardItem, RedemptionItem } from '@/types';
 import { Gift, Clock, CheckCircle } from 'lucide-react';
+import { toast } from '@/components/ui/toast';
 
 export default function RewardsPage() {
   const router = useRouter();
@@ -22,6 +23,9 @@ export default function RewardsPage() {
   useEffect(() => {
     const token = localStorage.getItem('accessToken');
     if (!token) {
+      toast.warning("로그인이 필요합니다", {
+        description: "로그인 페이지로 이동합니다"
+      });
       router.push('/api/login');
       return;
     }
@@ -331,7 +335,10 @@ export default function RewardsPage() {
 
         {/* Navigation */}
         <div className="text-center">
-          <Button variant="outline" onClick={() => router.push('/profile')}>
+          <Button variant="outline" onClick={() => {
+            toast.info("마이페이지로 이동합니다");
+            router.push('/profile');
+          }}>
             마이페이지로 돌아가기
           </Button>
         </div>

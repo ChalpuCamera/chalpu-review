@@ -1,20 +1,14 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Label } from "@/components/ui/label";
-import { Progress } from "@/components/ui/progress";
-import { TossProgressBar } from "@/components/TossProgressBar";
-import { tasteProfileApi } from "@/lib/api";
-import type { UserProfile } from "@/types";
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Label } from '@/components/ui/label';
+import { Progress } from '@/components/ui/progress';
+import { TossProgressBar } from '@/components/TossProgressBar';
+import { tasteProfileApi } from '@/lib/api';
+import type { UserProfile } from '@/types';
 
 const spicinessOptions = [
   { value: 1, label: "매운 음식은 거의 먹지 않아요. (0단계)" },
@@ -61,7 +55,7 @@ export default function TasteProfilePage() {
   useEffect(() => {
     const token = localStorage.getItem("accessToken");
     if (!token) {
-      router.push("/api/login");
+      router.push('/api/login');
       return;
     }
 
@@ -136,10 +130,10 @@ export default function TasteProfilePage() {
         // 설문에서 온 경우 설문으로 돌아가기
         const returnUrl = sessionStorage.getItem("returnUrl");
         if (returnUrl) {
-          sessionStorage.removeItem("returnUrl");
+          sessionStorage.removeItem('returnUrl');
           router.push(returnUrl);
         } else {
-          router.push("/profile");
+          router.push('/profile');
         }
       } else {
         setError("프로필 저장에 실패했습니다.");
@@ -307,9 +301,9 @@ export default function TasteProfilePage() {
         <div className="max-w-2xl mx-auto px-4">
           {/* 홈 버튼 */}
           <div className="mb-4 flex justify-between items-center">
-            <Button
-              variant="outline"
-              onClick={() => router.push("/")}
+            <Button 
+              variant="outline" 
+              onClick={() => router.push('/')}
               className="flex items-center gap-2"
             >
               🏠 홈으로
@@ -317,82 +311,67 @@ export default function TasteProfilePage() {
           </div>
 
           <Card>
-            <CardHeader className="text-center">
-              <CardTitle>
-                {isEditing ? "입맛 프로필 수정" : "당신의 입맛 알아보기"}
-              </CardTitle>
-              <CardDescription>
-                개인 맞춤 피드백을 위해 기본 취향을 알려주세요
-              </CardDescription>
-
-              {/* 피드백 작성 전 필수 안내 */}
-              {!isEditing && (
-                <div className="mt-4 p-4 bg-amber-50 border border-amber-200 rounded-lg text-sm">
-                  <div className="flex items-start gap-2">
-                    <span className="text-amber-500">⚠️</span>
-                    <div className="text-amber-800">
-                      <p className="font-medium">
-                        피드백 작성을 위해 입맛 프로필 설정이 필요합니다
-                      </p>
-                      <p className="text-xs mt-1">
-                        개인 맞춤형 질문을 제공하기 위해 먼저 취향을 알려주세요!
-                      </p>
-                    </div>
+          <CardHeader className="text-center">
+            <CardTitle>{isEditing ? '입맛 프로필 수정' : '당신의 입맛 알아보기'}</CardTitle>
+            <CardDescription>
+              개인 맞춤 피드백을 위해 기본 취향을 알려주세요
+            </CardDescription>
+            
+            {/* 피드백 작성 전 필수 안내 */}
+            {!isEditing && (
+              <div className="mt-4 p-4 bg-amber-50 border border-amber-200 rounded-lg text-sm">
+                <div className="flex items-start gap-2">
+                  <span className="text-amber-500">⚠️</span>
+                  <div className="text-amber-800">
+                    <p className="font-medium">피드백 작성을 위해 입맛 프로필 설정이 필요합니다</p>
+                    <p className="text-xs mt-1">개인 맞춤형 질문을 제공하기 위해 먼저 취향을 알려주세요!</p>
                   </div>
                 </div>
-              )}
-              <div className="space-y-2">
-                <Progress value={progress} className="w-full" />
-                <p className="text-sm text-gray-500">
-                  {isCompleted ? `완료` : `${currentStep + 1} / ${totalSteps}`}
-                </p>
               </div>
-            </CardHeader>
-
-            <CardContent>
-              {renderQuestion()}
-
-              <div className="flex justify-between mt-8">
-                <Button
-                  variant="outline"
-                  onClick={handlePrev}
-                  disabled={currentStep === 0 && !isCompleted && !isEditing}
-                >
-                  이전
-                </Button>
-
-                <Button
-                  onClick={handleNext}
-                  disabled={(!isStepValid() || isLoading) && !isCompleted}
-                  className={`transition-all duration-300 ${
-                    (!isStepValid() || isLoading) && !isCompleted
-                      ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-                      : "bg-blue-600 hover:bg-blue-700 text-white shadow-lg transform hover:scale-105"
-                  }`}
-                >
-                  {isCompleted
-                    ? isEditing
-                      ? "수정 완료"
-                      : "완료"
-                    : isLoading
-                    ? "저장 중..."
-                    : currentStep < totalSteps - 1
-                    ? "다음"
-                    : "완료"}
+            )}
+            <div className="space-y-2">
+              <Progress value={progress} className="w-full" />
+              <p className="text-sm text-gray-500">
+                {isCompleted ? `완료` : `${currentStep + 1} / ${totalSteps}`}
+              </p>
+            </div>
+          </CardHeader>
+          
+          <CardContent>
+            {renderQuestion()}
+            
+            <div className="flex justify-between mt-8">
+              <Button
+                variant="outline"
+                onClick={handlePrev}
+                disabled={currentStep === 0 && !isCompleted && !isEditing}
+              >
+                이전
+              </Button>
+              
+              <Button
+                onClick={handleNext}
+                disabled={(!isStepValid() || isLoading) && !isCompleted}
+                className={`transition-all duration-300 ${
+                  (!isStepValid() || isLoading) && !isCompleted
+                    ? 'bg-gray-300 text-gray-500 cursor-not-allowed' 
+                    : 'bg-blue-600 hover:bg-blue-700 text-white shadow-lg transform hover:scale-105'
+                }`}
+              >
+                {isCompleted ? (isEditing ? '수정 완료' : '완료') :
+                 isLoading ? '저장 중...' : 
+                 currentStep < totalSteps - 1 ? '다음' : '완료'}
+              </Button>
+            </div>
+            
+            {isEditing && currentStep < 3 && (
+              <div className="text-center mt-4">
+                <Button variant="ghost" onClick={() => router.push('/profile')}>
+                  취소
                 </Button>
               </div>
-
-              {isEditing && currentStep < 3 && (
-                <div className="text-center mt-4">
-                  <Button
-                    variant="ghost"
-                    onClick={() => router.push("/profile")}
-                  >
-                    취소
-                  </Button>
-                </div>
-              )}
-            </CardContent>
+            )}
+          </CardContent>
           </Card>
         </div>
       </div>

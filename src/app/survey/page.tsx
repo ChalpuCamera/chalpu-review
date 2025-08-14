@@ -12,6 +12,7 @@ import { PriceStep } from "./components/PriceStep";
 import { RecommendationStep } from "./components/RecommendationStep";
 import { FinalStep } from "./components/FinalStep";
 import { TossProgressBar } from "@/components/TossProgressBar";
+import { toast } from "@/components/ui/toast";
 
 function SurveyContent() {
   const router = useRouter();
@@ -189,10 +190,16 @@ function SurveyContent() {
         });
         console.log(response);
         if (response.data.code === 200) {
+          toast.success("피드백이 성공적으로 제출되었습니다!", {
+            description: "소중한 의견을 보내주셔서 감사합니다."
+          });
           router.push(
             "/survey/complete?restaurant=" + encodeURIComponent(restaurantName)
           );
         } else {
+          toast.error("피드백 제출에 실패했습니다", {
+            description: "다시 시도해 주세요."
+          });
           setError("피드백 제출에 실패했습니다.");
         }
       } else {
@@ -201,6 +208,9 @@ function SurveyContent() {
         return;
       }
     } catch {
+      toast.error("피드백 제출 중 오류가 발생했습니다", {
+        description: "네트워크 연결을 확인하고 다시 시도해 주세요."
+      });
       setError("피드백 제출 중 오류가 발생했습니다.");
     } finally {
       setIsLoading(false);

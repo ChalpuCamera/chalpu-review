@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { authApi } from '@/lib/api';
+import { toast } from '@/components/ui/toast';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -13,6 +14,9 @@ export default function LoginPage() {
     // Check if user is already logged in
     const token = localStorage.getItem('accessToken');
     if (token) {
+      toast.info("이미 로그인되어 있습니다", {
+        description: "메인 페이지로 이동합니다"
+      });
       router.push('/');
       return;
     }

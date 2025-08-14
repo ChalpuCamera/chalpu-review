@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { feedbackApi } from '@/lib/api';
 import { User as UserIcon, Settings, Gift, FileText, LogOut, PenTool } from 'lucide-react';
+import { toast } from '@/components/ui/toast';
 
 export default function ProfilePage() {
   const router = useRouter();
@@ -16,6 +17,9 @@ export default function ProfilePage() {
   useEffect(() => {
     const token = localStorage.getItem('accessToken');
     if (!token) {
+      toast.warning("로그인이 필요합니다", {
+        description: "로그인 페이지로 이동합니다"
+      });
       router.push('/api/login');
       return;
     }
@@ -23,8 +27,8 @@ export default function ProfilePage() {
     const loadData = async () => {
       try {
         const feedbackResponse = await feedbackApi.getMyFeedback();
-        if (feedbackResponse.data.result && Array.isArray(feedbackResponse.data.result)) {
-          const feedbackResults = feedbackResponse.data.result as Record<string, unknown>[];
+        if ((feedbackResponse.data.result.totalElements as number) > 0) {
+          const feedbackResults = feedbackResponse.data.result.content as Record<string, unknown>[];
           setFeedbacks(feedbackResults);
           setFeedbackCount(feedbackResults.length);
         }
@@ -41,10 +45,16 @@ export default function ProfilePage() {
   const handleLogout = () => {
     localStorage.removeItem('accessToken');
     localStorage.removeItem('userId');
+    toast.success("로그아웃되었습니다", {
+      description: "안전하게 로그아웃되었습니다"
+    });
     router.push('/api/login');
   };
 
   const startSurvey = () => {
+    toast.success("피드백 작성 페이지로 이동합니다!", {
+      description: "소중한 의견을 들려주세요"
+    });
     router.push('/survey');
   };
 
@@ -74,7 +84,10 @@ export default function ProfilePage() {
 
         {/* Quick Actions */}
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-          <Card className="cursor-pointer hover:shadow-md transition-shadow" onClick={() => router.push('/profile/taste')}>
+          <Card className="cursor-pointer hover:shadow-md transition-shadow" onClick={() => {
+            toast.info("입맛 프로필 페이지로 이동합니다");
+            router.push('/profile/taste');
+          }}>
             <CardContent className="flex flex-col items-center justify-center p-6 text-center">
               <Settings className="w-8 h-8 mb-2 text-blue-600" />
               <h3 className="font-semibold">내 입맛 프로필</h3>
@@ -82,11 +95,12 @@ export default function ProfilePage() {
             </CardContent>
           </Card>
 
-          <Card className="cursor-pointer hover:shadow-md transition-shadow" onClick={() => router.push('/rewards')}>
+          {/* 추후 수정 필요 onClick={() => router.push('/rewards')} */}
+          <Card className="cursor-not-allowed hover:shadow-md transition-shadow opacity-50">
             <CardContent className="flex flex-col items-center justify-center p-6 text-center">
               <Gift className="w-8 h-8 mb-2 text-green-600" />
               <h3 className="font-semibold">상품권 교환</h3>
-              <p className="text-sm text-gray-600 mt-1">리워드 확인</p>
+              <p className="text-sm text-gray-600 mt-1">{0 ? `리워드 확인` : `준비중 입니다.`}</p>
             </CardContent>
           </Card>
 
@@ -130,7 +144,7 @@ export default function ProfilePage() {
           <Card>
             <CardContent className="p-6 text-center">
               <div className="text-3xl font-bold text-purple-600 mb-2">
-                {feedbackCount % 5}개
+                {5 - feedbackCount % 5}개
               </div>
               <p className="text-gray-600">다음 상품권까지</p>
             </CardContent>
@@ -157,7 +171,7 @@ export default function ProfilePage() {
             ) : (
               <div className="space-y-3">
                 {feedbacks
-                  .slice(0, 10)
+                  .slice(0, 5)
                   .map((feedback) => (
                     <div
                       key={(feedback.id as string | number) || Math.random()}
@@ -180,10 +194,10 @@ export default function ProfilePage() {
                     </div>
                   ))}
                 
-                {feedbacks.length > 10 && (
+                {feedbacks.length > 5 && (
                   <div className="text-center pt-4">
                     <p className="text-gray-500 text-sm">
-                      총 {feedbacks.length}개의 피드백 중 최근 10개를 표시하고 있습니다.
+                      총 {feedbacks.length}개의 피드백 중 최근 5개를 표시하고 있습니다.
                     </p>
                   </div>
                 )}

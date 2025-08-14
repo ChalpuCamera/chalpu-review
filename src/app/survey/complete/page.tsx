@@ -4,6 +4,7 @@ import { Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { toast } from '@/components/ui/toast';
 
 function SurveyCompleteContent() {
   const router = useRouter();
@@ -35,15 +36,24 @@ function SurveyCompleteContent() {
             
             <div className="space-y-3">
               <Button 
-                onClick={() => router.push('/rewards')}
+                onClick={() => {
+                  toast.success("리워드 페이지로 이동합니다", {
+                    description: "적립된 포인트를 확인해보세요!"
+                  });
+                  router.push('/rewards');
+                }}
                 className="w-full"
+                disabled={true}
               >
-                내 리워드 현황 확인하기
+                {1 ? `준비중 입니다.` : `내 리워드 현황 확인하기`}
               </Button>
               
               <Button 
                 variant="outline"
-                onClick={() => router.push('/profile')}
+                onClick={() => {
+                  toast.info("마이페이지로 이동합니다");
+                  router.push('/profile');
+                }}
                 className="w-full"
               >
                 마이페이지로 이동

@@ -2,6 +2,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Progress } from '@/components/ui/progress';
 import { Button } from '@/components/ui/button';
 import { useRouter } from 'next/navigation';
+import { toast } from '@/components/ui/toast';
 
 interface SurveyLayoutProps {
   currentStep: number;
@@ -41,7 +42,10 @@ export function SurveyLayout({
         <div className="mb-4 flex justify-between items-center">
           <Button 
             variant="outline" 
-            onClick={() => router.push('/')}
+            onClick={() => {
+              toast.info("홈으로 이동합니다");
+              router.push('/');
+            }}
             className="flex items-center gap-2"
           >
             🏠 홈으로
